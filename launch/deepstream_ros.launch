@@ -1,0 +1,14 @@
+<launch>
+
+  <arg name="output" default="screen" />
+  <arg name="respawn" default="false" />
+
+  <arg name="node_name" default="deepstream_ros" />  
+  <arg name="objects_topic" default="objects" />
+
+  <node pkg="deepstream_ros" type="deepstream_ros" name="$(arg node_name)" 
+        output="$(arg output)" respawn="$(arg respawn)"> 
+    <remap from="objects" to="$(arg objects_topic)" />
+  </node>
+
+</launch>
