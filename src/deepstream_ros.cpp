@@ -7,7 +7,7 @@ deepstream_ros::deepstream_ros(const ros::NodeHandle& nh,
 : _nh(nh)
 , _private_nh(private_nh)
 {
-    try {
+    try {    
         std::string obj_topic = "objects"; 
         ROS_INFO_STREAM("Advertise objects topic: " << obj_topic);
         _obj_pub = _nh.advertise<std_msgs::String>(obj_topic, 2);
@@ -16,6 +16,8 @@ deepstream_ros::deepstream_ros(const ros::NodeHandle& nh,
         ROS_ERROR_STREAM("ROS exception: " << ex.what());
         throw; 
     }
+
+    LoadParam(_private_nh, "config", _config_file, true); 
 
     try {
         _stop = false; 
@@ -45,7 +47,11 @@ void deepstream_ros::ds_thread()
 {  
     ROS_INFO("DeepStream thread start");
 
-    std::vector<std::string> args = {"-c", "test.txt"};
+    std::vector<std::string> args;
+    args.push_back("deepstream-ros"); 
+    args.push_back("-c"); 
+    args.push_back(_config_file);
+    
     std::vector<char*> argv;
     for (const auto& arg : args)
         argv.push_back((char*)arg.data());

@@ -123,6 +123,9 @@ all_bbox_generated (AppCtx * appCtx, GstBuffer * buf,
             num_female++;
           }
         }
+        NvOSD_RectParams rect = obj->rect_params; 
+        printf("class_id: %d object_id: %lu rect: %f,%f,%f,%f\n", obj->class_id, obj->object_id, 
+                rect.left, rect.top, rect.width, rect.height); 
       }
     }
   }
@@ -564,6 +567,10 @@ ds_main (int argc, char *argv[])
   GOptionGroup *group = NULL;
   GError *error = NULL;
   guint i;
+
+  // for (int i = 0; i < argc; i++) {
+  //   printf("arg %d: %s\n", i, argv[i]); 
+  // }
 
   ctx = g_option_context_new ("Nvidia DeepStream Demo");
   group = g_option_group_new ("abc", NULL, NULL, NULL, NULL);

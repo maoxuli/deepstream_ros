@@ -16,17 +16,20 @@ public:
 
     ~deepstream_ros(); 
 
-private: 
-    void ds_thread(); 
 
 private: 
     ros::NodeHandle _nh; 
     ros::NodeHandle _private_nh; 
     ros::Publisher _obj_pub; 
 
+private: 
     boost::thread _ds_thread;
     std::atomic<bool> _stop; 
     std::mutex _mutex; 
+
+    void ds_thread(); 
+
+    std::string _config_file; 
 }; 
 
 #endif 

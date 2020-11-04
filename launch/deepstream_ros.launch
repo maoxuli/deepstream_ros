@@ -6,8 +6,13 @@
   <arg name="node_name" default="deepstream_ros" />  
   <arg name="objects_topic" default="objects" />
 
+  <arg name="config_path" value="/home/nvidia/deepstream-5.0/samples/configs/deepstream-app" />
+  <arg name="config_file" default="$(arg config_path)/source1_1080p_dec_infer-yolov4-tiny_tracker_tiled_display_fp16_nano.txt" />
+  <!-- <arg name="config_file" default="$(arg config_path)/source1_csi_infer-yolov4-tiny_tracker_tiled_display_fp16_nano.txt" /> -->
+
   <node pkg="deepstream_ros" type="deepstream_ros" name="$(arg node_name)" 
         output="$(arg output)" respawn="$(arg respawn)"> 
+    <param name="config" value="$(arg config_file)" />
     <remap from="objects" to="$(arg objects_topic)" />
   </node>
 
