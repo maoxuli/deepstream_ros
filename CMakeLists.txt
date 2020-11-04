@@ -22,12 +22,13 @@ find_package(PkgConfig REQUIRED)
 
 # pkg_check_modules(GLIB REQUIRED glib-2.0)
 
-pkg_check_modules(GSTREAMER REQUIRED gstreamer-1.0)
+pkg_check_modules(GSTREAMER REQUIRED gstreamer-1.0 gstreamer-video-1.0)
+pkg_check_modules(JSON_GLIB REQUIRED json-glib-1.0)
 
+set(NVDS_INCLUDES_DIR /opt/nvidia/deepstream/deepstream-5.0/sources/includes)
+set(NVDS_LIB_DIR /opt/nvidia/deepstream/deepstream-5.0/lib)
 
-set(DS_INCLUDES_DIR /opt/nvidia/deepstream/deepstream/sources/includes)
-set(DS_APPS_COMMON_INCLUDES_DIR /home/maoxu/novateur_jetson/src/deepstream_ros/src/apps-common/includes)
-file(GLOB_RECURSE DS_APPS_COMMON_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "apps-common/src/*.c")
+set(NVDS_APPS_COMMON_INCLUDES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/apps-common/includes)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -125,9 +126,12 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   ${GSTREAMER_INCLUDE_DIRS}
-  ${DS_APPS_COMMON_INCLUDES_DIR}
-  ${DS_INCLUDES_DIR}
+  ${JSON_GLIB_INCLUDE_DIRS}
+  ${NVDS_APPS_COMMON_INCLUDES_DIR}
+  ${NVDS_INCLUDES_DIR}
 )
+
+link_directories(${NVDS_LIB_DIR})
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}_nodelet 
@@ -147,12 +151,27 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(${PROJECT_NAME} 
-  ${DS_APPS_COMMON_SOURCES}
-  src/deepstream_ros_node.cpp 
-  src/deepstream_ros.cpp 
-  src/deepstream_app_main.c 
-  src/deepstream_app.c 
+  src/apps-common/src/deepstream_c2d_msg.c       
+  src/apps-common/src/deepstream_config_file_parser.c  
+  src/apps-common/src/deepstream_dsexample.c  
+  src/apps-common/src/deepstream_primary_gie_bin.c    
+  src/apps-common/src/deepstream_source_bin.c         
+  src/apps-common/src/deepstream_tracker_bin.c
+  src/apps-common/src/deepstream_c2d_msg_util.c  
+  src/apps-common/src/deepstream_dewarper_bin.c        
+  src/apps-common/src/deepstream_osd_bin.c    
+  src/apps-common/src/deepstream_secondary_gie_bin.c  
+  src/apps-common/src/deepstream_streammux.c
+  src/apps-common/src/deepstream_common.c        
+  src/apps-common/src/deepstream_dsanalytics.c         
+  src/apps-common/src/deepstream_perf.c       
+  src/apps-common/src/deepstream_sink_bin.c           
+  src/apps-common/src/deepstream_tiled_display_bin.c
   src/deepstream_app_config_parser.c
+  src/deepstream_app.c 
+  src/deepstream_app_main.c 
+  src/deepstream_ros.cpp 
+  src/deepstream_ros_node.cpp 
 )
 
 ## Rename C++ executable without prefix
@@ -166,7 +185,7 @@ add_executable(${PROJECT_NAME}
 add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${GSTREAMER_LIBRARY_DIRS})
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${GSTREAMER_LIBRARIES} ${JSON_GLIB_LIBRARIES} boost_system  boost_filesystem gstrtspserver-1.0 nvdsgst_meta nvds_meta nvdsgst_helper nvdsgst_smartrecord nvds_utils nvds_msgbroker m X11)
 
 
 #############

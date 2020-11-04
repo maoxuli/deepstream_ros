@@ -1,5 +1,6 @@
 #include "deepstream_ros.h"
 #include "ros_parameter.hpp"
+// #include "deepstream_app_main.h"
 
 deepstream_ros::deepstream_ros(const ros::NodeHandle& nh, 
                                const ros::NodeHandle& private_nh) 
@@ -35,15 +36,22 @@ deepstream_ros::~deepstream_ros()
     } 
 }
 
+extern "C" {
+    int ds_main(int argc, char *argv[]); 
+}
+
 // thread function for deepstream pipeline 
 void deepstream_ros::ds_thread() 
 {  
     ROS_INFO("DeepStream thread start");
 
-    while (!_stop && ros::ok()) 
-    {
+    std::vector<std::string> args = {"-c", "test.txt"};
+    std::vector<char*> argv;
+    for (const auto& arg : args)
+        argv.push_back((char*)arg.data());
+    argv.push_back(nullptr);
 
-    }
+    ds_main(argv.size()-1, argv.data()); 
 
     ROS_INFO("DeepStream thread stopped!");
 }

@@ -558,7 +558,7 @@ overlay_graphics (AppCtx * appCtx, GstBuffer * buf,
 }
 
 int
-main (int argc, char *argv[])
+ds_main (int argc, char *argv[])
 {
   GOptionContext *ctx = NULL;
   GOptionGroup *group = NULL;
