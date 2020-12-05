@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(deepstream_ros)
+project(videocapture)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -133,24 +133,8 @@ include_directories(
 
 link_directories(${NVDS_LIB_DIR})
 
-## Declare a C++ library
-# add_library(${PROJECT_NAME}_nodelet 
-#   src/video_source_nodelet.cpp
-#   src/video_source.cpp 
-# )
-
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
-# add_dependencies(${PROJECT_NAME}_nodelet ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_nodelet ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
-
-## Declare a C++ executable
-## With catkin_make all packages are built within a single CMake context
-## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME} 
+# Declare a C++ library
+add_library(${PROJECT_NAME} 
   src/apps-common/src/deepstream_c2d_msg.c       
   src/apps-common/src/deepstream_config_file_parser.c  
   src/apps-common/src/deepstream_dsexample.c  
@@ -167,25 +151,62 @@ add_executable(${PROJECT_NAME}
   src/apps-common/src/deepstream_perf.c       
   src/apps-common/src/deepstream_sink_bin.c           
   src/apps-common/src/deepstream_tiled_display_bin.c
-  src/deepstream_app_config_parser.c
-  src/deepstream_app.c 
-  src/deepstream_app_main.c 
-  src/deepstream_ros.cpp 
-  src/deepstream_ros_node.cpp 
+)
+
+# Add cmake target dependencies of the library
+# as an example, code may need to be generated before libraries
+# either from message generation or dynamic reconfigure
+add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+# Specify libraries to link a library or executable target against
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+# ## Declare a C++ executable
+# ## With catkin_make all packages are built within a single CMake context
+# ## The recommended prefix ensures that target names across packages don't collide
+# add_executable(deepstream-app 
+#   src/deepstream-app/deepstream_app_config_parser.c
+#   src/deepstream-app/deepstream_app.c 
+#   src/deepstream-app/deepstream_app_main.c 
+#   src/deepstream_ros.cpp 
+#   src/deepstream_ros_node.cpp 
+# )
+
+# ## Rename C++ executable without prefix
+# ## The above recommended prefix causes long target names, the following renames the
+# ## target back to the shorter version for ease of user use
+# ## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
+# # set_target_properties(deepstream-app PROPERTIES OUTPUT_NAME node PREFIX "")
+
+# ## Add cmake target dependencies of the executable
+# ## same as for the library above
+# add_dependencies(deepstream-app ${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+# ## Specify libraries to link a library or executable target against
+# target_link_libraries(deepstream-app ${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${GSTREAMER_LIBRARIES} ${JSON_GLIB_LIBRARIES} boost_system  boost_filesystem gstrtspserver-1.0 nvdsgst_meta nvds_meta nvdsgst_helper nvdsgst_smartrecord nvds_utils nvds_msgbroker m X11)
+
+## Declare a C++ executable
+## With catkin_make all packages are built within a single CMake context
+## The recommended prefix ensures that target names across packages don't collide
+add_executable(videocapture 
+  src/nvgstcapture/nvgst_x11_common.c
+  src/nvgstcapture/nvgstcapture.c 
+  src/videocapture_ros.cpp 
+  src/videocapture_ros_node.cpp 
 )
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
 ## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
-# set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
+# set_target_properties(videocatpure ${PROJECT_NAME} PROPERTIES OUTPUT_NAME node PREFIX "")
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(videocapture ${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${GSTREAMER_LIBRARIES} ${JSON_GLIB_LIBRARIES} boost_system  boost_filesystem gstrtspserver-1.0 nvdsgst_meta nvds_meta nvdsgst_helper nvdsgst_smartrecord nvds_utils nvds_msgbroker m X11)
+target_link_libraries(videocapture ${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${GSTREAMER_LIBRARIES} ${JSON_GLIB_LIBRARIES} boost_system  boost_filesystem gstrtspserver-1.0 nvdsgst_meta nvds_meta nvdsgst_helper nvdsgst_smartrecord nvds_utils nvds_msgbroker m X11)
 
 
 #############
@@ -210,7 +231,7 @@ target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${
 
 ## Mark libraries for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_libraries.html
-install(TARGETS ${PROJECT_NAME} 
+install(TARGETS ${PROJECT_NAME} videocapture
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}

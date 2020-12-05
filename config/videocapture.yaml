@@ -1,0 +1,169 @@
+
+## Preview width & height.
+## Range: 0 to 2 (1920x1080)
+prev-res: 1
+
+## Custom Preview width & height e.g., 1280x720
+cus-prev-res: "1280x720"
+
+## Image width & height. Range: 1 to 6 (4032x3040) 
+image-res: 2
+
+# Video width & height. Range: 1 to 6 (4032x3040)
+video-res: 2
+
+## Camera Source to use (0=v4l2, 1=csi[default], 2=videotest, 3=eglstream)
+camsrc: 1
+
+## Capture mode value (1=still 2=video)
+mode: 2
+
+## Video encoder type (0=h264[HW] 1=vp8[HW] 2=h265[HW] 3=vp9[HW])
+video-enc: 0
+
+## Frame Work type (0=OMX 1=V4L2 [Default])
+hw-enc-path: 1
+
+## Video encoding Bit-rate(in bytes) e.g., 14000000
+enc-bitrate: 14000000
+
+## Video encoding Bit-rate control method 0 = Disable, 1 = variable(Default), 2 = constant 
+enc-controlrate: 1
+
+## Enable two pass CBR while encoding 0 = Disable, 1 = Enable 
+enc-EnableTwopassCBR: 1
+
+## Video encoder profile For H.264: 0=Baseline, 1=Main, 2=High
+enc-profile: 2
+,
+## Image encoder type (0=jpeg_SW[jpegenc] 1=jpeg_HW[nvjpegenc])
+image-enc: 1
+
+## Container file type (0=mp4 1=3gp 2=mkv)
+file-type: 0
+
+## Captured file name. nvcamcap is used by default
+file-name: "nvcamcap"
+
+## Color format to use (0=I420, 
+## 1=NV12[For CSI only and default for CSI], 2=YUY2[For V4L2 only, default for v4l2])
+color-format: 1
+
+## Enable Sensor MetaData reporting 
+enable-meta: true
+
+## Enable KPI profiling
+app-profile: true
+
+## Enable KPI measurement
+kpi-numbers: 
+
+## Video capture device node (0=/dev/video0[default], 1=/dev/video1, 2=/dev/video2) 
+cap-dev-node: 0
+
+## [For USB] (=) chain for video Preview. [For CSI only] use "nvoverlaysink"
+svs: 
+
+## EGL window Coordinates (x_pos y_pos) in that order 
+## e.g., "50 100"
+eglConfig: 
+
+## Camera sensor orientation value
+orientation: 
+
+## Capture whitebalance value
+whitebalance: 
+
+## Capture timeout value 
+timeout: 
+
+## Camera Saturation value 
+staturation: 
+
+## Camera Sensor ID value
+sensor-id: 
+
+## Camera Sensor Mode value
+sensor-mode: 
+
+## Property to adjust exposure time range in nanoseconds
+## e.g., "34000 358733000"
+exposuretimerange: 
+
+## Property to adjust gain range
+## e.g., "1 16"
+gainrange: 
+
+## Property to adjust digital gain range
+## e.g., "1 8"
+ispdigitalgainrange: 
+
+## Enable AE Lock, default is disabled
+aelock: 
+
+## Enable AWB Lock, default is disabled
+awblock: 
+
+## Property to adjust exposure compensation
+exposurecompenstation: 0.5
+
+## Property to set the auto exposure antibanding mode
+aeantibanding: 2
+
+## Property to select temporal noise reduction mode
+tnr-mode: 2
+
+## Property to adjust temporal noise reduction strength
+tnr-strength: 0.5
+
+## Property to select edge enhancement mode
+ee-mode: 2
+
+## Property to adjust edge enhancement strength
+ee-strength: 0.5
+
+## [For nvoverlaysink only] Display ID value
+display-id: 
+
+## Overlay Configuration Options index and coordinates in (index, x_pos, y_pos, width, height) order 
+## e.g. "0, 0, 0, 1280, 720"
+overlayConfig: 
+
+## Run application in automation mode
+automate: 
+
+## Start capture after specified time in seconds. Default = 5 sec (use with "automate" only)
+start-time: 
+
+## Quit application once automation is done after specified time in seconds. Default = 0 sec (use with "automate" only)
+quit-after: 
+
+## Number of iterations of automation mode. Default = 1 (use with "automate" only)
+count: 
+
+## Number of sensors  (use with "automate" only)
+num-sensors: 
+
+## Number of milliseconds between successive image/video capture. Default = 250 msec (use with "automate" and "capture-auto" only)
+capture-gap: 
+
+## Capture video for specified time in seconds. Default = 10 sec (use with "automate" and "capture-auto" only)
+capture-time: 
+
+## Toggle between still and video capture modes for count number of times (use with "automate" only)
+toggle-mode: 
+
+## Do image/video capture in automation mode for count number of times(use with "automate" only)
+capture-auto: 
+
+## Toggle between num_sensors if given otherwise between sensor-id 0 and 1 (use with "automate" only)
+toggle-sensor: 
+
+## Toggle between all sensor modes if given. (use with "automate" only)
+toggle-sensor-modes: 
+
+## Enumerate all white-balance modes for count number of times (use with "automate" only)
+enum-wb: 
+
+## Enumerate saturation value through 0 to 2 by a step of 0.1 for count number of times (use with "automate" only)
+enum-st: 

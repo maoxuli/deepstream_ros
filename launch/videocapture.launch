@@ -1,0 +1,16 @@
+<launch>
+
+  <arg name="output" default="screen" />
+  <arg name="respawn" default="false" />
+
+  <arg name="node_name" default="videocapture" />  
+  <arg name="start_service" default="start" />
+  <arg name="stop_service" default="stop" />
+
+  <node pkg="deepstream_ros" type="videocapture" name="$(arg node_name)" 
+        output="$(arg output)" respawn="$(arg respawn)"> 
+    <remap from="start" to="$(arg start_service)" />
+    <remap from="stop" to="$(arg stop_service)" />
+  </node>
+
+</launch>
